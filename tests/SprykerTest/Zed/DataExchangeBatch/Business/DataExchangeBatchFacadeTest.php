@@ -26,7 +26,6 @@ use SprykerTest\Zed\DataExchangeBatch\DataExchangeBatchTester;
  */
 class DataExchangeBatchFacadeTest extends Unit
 {
-
     /**
      * @var DataExchangeBatchTester
      */
