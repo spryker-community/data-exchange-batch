@@ -10,6 +10,8 @@ use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestTransferMa
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestTransferMapperInterface;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Processor\DataExchangeBatchProcessor;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Processor\DataExchangeBatchProcessorInterface;
+use SprykerCommunity\Zed\DataExchangeBatch\Business\Status\StatusReader;
+use SprykerCommunity\Zed\DataExchangeBatch\Business\Status\StatusReaderInterface;
 use SprykerCommunity\Zed\DataExchangeBatch\DataExchangeBatchDependencyProvider;
 
 /**
@@ -49,6 +51,16 @@ class DataExchangeBatchBusinessFactory extends AbstractBusinessFactory
         return new GlueRequestDynamicEntityMapper(
             $this->getProvidedDependency(DataExchangeBatchDependencyProvider::SERVICE_UTIL_ENCODING),
 
+        );
+    }
+
+    /**
+     * @return StatusReaderInterface
+     */
+    public function createStatusReader(): StatusReaderInterface
+    {
+        return new StatusReader(
+            $this->getRepository()
         );
     }
 }
