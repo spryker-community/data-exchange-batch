@@ -12,5 +12,10 @@
         "psr-4": {
             "SprykerCommunity\\": "src/SprykerCommunity/"
         }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Unit": "tests/Unit/"
+        }
     }
 }
