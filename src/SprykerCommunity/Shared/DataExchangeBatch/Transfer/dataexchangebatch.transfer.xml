@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<transfers xmlns="spryker:transfer-01" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="spryker:transfer-01 http://static.spryker.com/transfer-01.xsd">
+
+    <transfer name="DataExchangeBatchResponse">
+        <property name="ticketId" type="string"/>
+        <property name="count" type="int"/>
+        <property name="creationDate" type="string"/>
+        <property name="finishDate" type="string"/>
+    </transfer>
+
+    <transfer name="DataExchangeBatchRequest">
+        <property name="dynamicResourceCollection" type="DataExchangeBatchDynamicResource[]" singular="dynamicResource"/>
+    </transfer>
+
+    <transfer name="DataExchangeBatchDynamicResource">
+        <property name="content" type="string"/>
+        <property name="path" type="string"/>
+    </transfer>
+
+</transfers>
