@@ -27,4 +27,9 @@ class DataExchangeBatchFacade extends AbstractFacade implements DataExchangeBatc
     {
         return $this->getFactory()->createStatusReader()->getStatusOnBatch($batchDetails);
     }
+
+    public function processBatch(string $resource, string $payload): array
+    {
+        return $this->getFactory()->createBatchProcessor()->process($resource, $payload);
+    }
 }
