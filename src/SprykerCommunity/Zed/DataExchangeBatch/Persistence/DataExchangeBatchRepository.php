@@ -4,8 +4,7 @@ namespace SprykerCommunity\Zed\DataExchangeBatch\Persistence;
 
 use Generated\Shared\Transfer\DataExchangeBachResourceEntryTransfer;
 use Generated\Shared\Transfer\DataExchangeBatchStatusRequestTransfer;
-use Orm\Zed\DataExchangeBatch\Persistence\SpyDataExchangeBachTask;
-use Orm\Zed\DataExchangeBatch\Persistence\SpyDataExchangeBachTaskQuery;
+use Orm\Zed\DataExchangeBatch\Persistence\SpyDataExchangeBatchQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -26,15 +25,21 @@ class DataExchangeBatchRepository extends AbstractRepository implements DataExch
         return $this->getFactory()->createResourceEntryMapper()->mapResourceEntryTransfer($data);
     }
 
-    public function fetchBatchStatus(DataExchangeBatchStatusRequestTransfer $batchDetatils)
+    public function fetchBatchStatus(DataExchangeBatchStatusRequestTransfer $batchDetatils): array
     {
-        $query = SpyDataExchangeBachTaskQuery::create()
+        $query = SpyDataExchangeBatchQuery::create()
             ->filterByTaskNumber($batchDetatils->getId())
             ->joinWithSpyDataExchangeResourceEntry()
             ->useSpyDataExchangeResourceEntryQuery()
                 ->filterByResource($batchDetatils->getResourceOrFail())
             ->endUse();
 
-        dd($query->find());
+        return $this->mapBatchStatus($query->find());
+    }
+
+    protected function mapBatchStatus($data)
+    {
+        $raw_data = $data->toArray();
+        return array_pop($raw_data);
     }
 }

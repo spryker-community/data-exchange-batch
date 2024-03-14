@@ -10,6 +10,7 @@
         <property name="resource" type="string" />
         <property name="id" type="string" />
         <property name="count" type="int" />
+        <property name="openCount" type="int" />
         <property name="creationTime" type="string" />
         <property name="finishTime" type="string" />
         <property name="logs" type="array" />
