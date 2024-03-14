@@ -10,7 +10,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "SprykerCommunity\\": "src/"
+            "SprykerCommunity\\": "src/SprykerCommunity/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Unit": "tests/Unit/"
         }
     }
 }
