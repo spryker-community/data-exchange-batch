@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace SprykerCommunity\Zed\DataExchangeBatch\Business;
 
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
+use SprykerCommunity\Zed\DataExchangeBatch\Business\Batching\BatchProcessor;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestDynamicEntityMapper;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestTransferMapper;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestTransferMapperInterface;

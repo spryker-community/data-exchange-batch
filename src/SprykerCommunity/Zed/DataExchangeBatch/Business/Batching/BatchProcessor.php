@@ -14,8 +14,9 @@ class BatchProcessor
     {
         $decoded_payload = json_decode($payload, true);
 
-        $batch = $this->entityManager->createNewBatch();
-        foreach ($decoded_payload as $item) {
+        $batch = $this->entityManager->createNewBatch(count($decoded_payload['data']));
+
+        foreach ($decoded_payload['data'] as $item) {
             $this->entityManager->addItem($batch, $resource, $item);
         }
 

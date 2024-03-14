@@ -29,7 +29,7 @@ class DataExchangeBatchRepository extends AbstractRepository implements DataExch
     {
         $query = SpyDataExchangeBatchQuery::create()
             ->filterByTaskNumber($batchDetatils->getId())
-            ->joinWithSpyDataExchangeResourceEntry()
+            ->leftJoinWithSpyDataExchangeResourceEntry()
             ->useSpyDataExchangeResourceEntryQuery()
                 ->filterByResource($batchDetatils->getResourceOrFail())
             ->endUse();
@@ -40,6 +40,6 @@ class DataExchangeBatchRepository extends AbstractRepository implements DataExch
     protected function mapBatchStatus($data)
     {
         $raw_data = $data->toArray();
-        return array_pop($raw_data);
+        return array_pop($raw_data) ?? [];
     }
 }

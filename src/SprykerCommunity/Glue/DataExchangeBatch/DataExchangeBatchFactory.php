@@ -28,7 +28,8 @@ class DataExchangeBatchFactory extends AbstractFactory
     public function createBatchProcessor(): BatchProcessor
     {
         return new BatchProcessor(
-            $this->getDataExchangeBatchFacade()
+            $this->getDataExchangeBatchFacade(),
+            $this->getConfig()
         );
     }
 
