@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace SprykerCommunity\Zed\DataExchangeBatch\Business;
 
+use Generated\Shared\Transfer\DataExchangeBatchStatusRequestTransfer;
+use Generated\Shared\Transfer\DataExchangeBatchStatusResponseTransfer;
 use Generated\Shared\Transfer\EventEntityTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
@@ -19,5 +21,10 @@ class DataExchangeBatchFacade extends AbstractFacade implements DataExchangeBatc
     public function createDataExchangeResource(EventEntityTransfer $queueMessageTransfers): void
     {
          $this->getFactory()->createDataExchangeBachProcessor()->process($queueMessageTransfers);
+    }
+
+    public function getStatusOnBatch(DataExchangeBatchStatusRequestTransfer $batchDetails): DataExchangeBatchStatusResponseTransfer
+    {
+        return $this->getFactory()->createStatusReader()->getStatusOnBatch($batchDetails);
     }
 }
