@@ -6,6 +6,7 @@ use Generated\Shared\Transfer\DynamicEntityConfigurationConditionsTransfer;
 use Generated\Shared\Transfer\DynamicEntityConfigurationCriteriaTransfer;
 use Generated\Shared\Transfer\DynamicEntityConfigurationTransfer;
 use Spryker\Zed\DynamicEntity\Business\DynamicEntityFacadeInterface;
+use SprykerCommunity\Glue\DataExchangeBatch\Controller\DataExchangeBatchBatchingController;
 use SprykerCommunity\Glue\DataExchangeBatch\Controller\DataExchangeBatchStatusController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
@@ -19,21 +20,20 @@ use Spryker\Glue\DynamicEntityBackendApi\Builder\Route\RouteBuilder as DynamicEn
 class RouteBuilder
 {
 
-    protected const STATUS_ROUTE_PATTERN = '%s/%s/{id}';
-
-    protected const STATUS_NAME_PATTERN = '%s%s';
+    protected const STATUS_ROUTE_PATTERN = '/%s/%s/status/{id}';
 
     protected const STATUS_ROUTE_SUFFIX = 'status';
+    protected const BATCH_ROUTE_SUFFIX = 'batch';
 
     /**
      * @var string
      */
-    protected const ROUTE_PATH_PLACEHOLDER = '/%s/%s';
+    protected const BATCH_ROUTE_PATTERN = '/%s/%s/batch';
 
     /**
      * @var string
      */
-    protected const ROUTE_NAME_PLACEHOLDER = '%s%s';
+    protected const ROUTE_NAME_PLACEHOLDER = '%s%s%s';
 
     /**
      * @var string
@@ -63,6 +63,11 @@ class RouteBuilder
     protected const GET_ACTION = 'getAction';
 
     /**
+     * @var string
+     */
+    protected const POST_ACTION = 'postAction';
+
+    /**
      * @var DynamicEntityFacadeInterface
      */
     protected DynamicEntityFacadeInterface $dynamicEntityFacade;
@@ -89,7 +94,8 @@ class RouteBuilder
         );
 
         foreach ($dynamicEntityConfigurationCollectionTransfer->getDynamicEntityConfigurations() as $dynamicEntityConfiguration) {
-            $routeCollection = $this->addDynamicEntityRouteForGet($dynamicEntityConfiguration, $routeCollection);
+            $routeCollection = $this->addDynamicEntityRouteForStatus($dynamicEntityConfiguration, $routeCollection);
+            $routeCollection = $this->addDynamicEntityRouteForBatch($dynamicEntityConfiguration, $routeCollection);
         }
 
         return $routeCollection;
@@ -102,10 +108,10 @@ class RouteBuilder
      *
      * @return \Symfony\Component\Routing\Route
      */
-    protected function buildRoute(string $action, string $method, string $path): Route
+    protected function buildRoute(string $controller, string $action, string $method, string $path): Route
     {
         $route = new Route($path);
-        $route->setDefault(static::CONTROLLER, [DataExchangeBatchStatusController::class, $action])
+        $route->setDefault(static::CONTROLLER, [$controller, $action])
             ->setDefault(static::METHOD, $method)
             ->setDefault(static::STRATEGIES_AUTHORIZATION, [static::STRATEGY_AUTHORIZATION_API_KEY])
             ->setMethods($method);
@@ -119,18 +125,44 @@ class RouteBuilder
      *
      * @return \Symfony\Component\Routing\RouteCollection
      */
-    protected function addDynamicEntityRouteForGet(
+    protected function addDynamicEntityRouteForStatus(
         DynamicEntityConfigurationTransfer $dynamicEntityConfigurationTransfer,
         RouteCollection $routeCollection
     ): RouteCollection {
         $route = $this->buildRoute(
+            DataExchangeBatchStatusController::class,
             static::GET_ACTION,
             Request::METHOD_GET,
-            $this->formatPath(static::ROUTE_PATH_PLACEHOLDER, $dynamicEntityConfigurationTransfer->getTableAliasOrFail()),
+            $this->formatPath(static::STATUS_ROUTE_PATTERN, $dynamicEntityConfigurationTransfer->getTableAliasOrFail()),
         );
 
         $routeCollection->add(
-            $this->formatName(static::ROUTE_NAME_PLACEHOLDER, $dynamicEntityConfigurationTransfer->getTableAliasOrFail(), Request::METHOD_GET),
+            $this->formatName(static::ROUTE_NAME_PLACEHOLDER, $dynamicEntityConfigurationTransfer->getTableAliasOrFail(), Request::METHOD_GET, static::STATUS_ROUTE_SUFFIX),
+            $route,
+        );
+
+        return $routeCollection;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\DynamicEntityConfigurationTransfer $dynamicEntityConfigurationTransfer
+     * @param \Symfony\Component\Routing\RouteCollection $routeCollection
+     *
+     * @return \Symfony\Component\Routing\RouteCollection
+     */
+    protected function addDynamicEntityRouteForBatch(
+        DynamicEntityConfigurationTransfer $dynamicEntityConfigurationTransfer,
+        RouteCollection $routeCollection
+    ): RouteCollection {
+        $route = $this->buildRoute(
+            DataExchangeBatchBatchingController::class,
+            static::POST_ACTION,
+            Request::METHOD_POST,
+            $this->formatPath(static::BATCH_ROUTE_PATTERN, $dynamicEntityConfigurationTransfer->getTableAliasOrFail()),
+        );
+
+        $routeCollection->add(
+            $this->formatName(static::ROUTE_NAME_PLACEHOLDER, $dynamicEntityConfigurationTransfer->getTableAliasOrFail(), Request::METHOD_GET, static::BATCH_ROUTE_SUFFIX),
             $route,
         );
 
@@ -153,13 +185,12 @@ class RouteBuilder
 
     protected function formatPath(string $placeholder, string $tableAlias): string
     {
-        return sprintf(static::STATUS_ROUTE_PATTERN, sprintf($placeholder, $this->config->getRoutePrefix(), $tableAlias), static::STATUS_ROUTE_SUFFIX);
+        return sprintf($placeholder, $this->config->getRoutePrefix(), $tableAlias);
     }
 
-    protected function formatName(string $placeholder, string $tableAlias, ?string $method = null): string
+    protected function formatName(string $placeholder, string $tableAlias, ?string $method = null, ?string $suffix = null): string
     {
-        return sprintf(static::STATUS_NAME_PATTERN, sprintf($placeholder, $tableAlias, $method), ucfirst(static::STATUS_ROUTE_SUFFIX));
+        return sprintf($placeholder, $tableAlias, $method, $suffix);
     }
-
 
 }

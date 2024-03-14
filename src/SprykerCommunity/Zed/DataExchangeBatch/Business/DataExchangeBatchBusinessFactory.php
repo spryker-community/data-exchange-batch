@@ -63,4 +63,11 @@ class DataExchangeBatchBusinessFactory extends AbstractBusinessFactory
             $this->getRepository()
         );
     }
+
+    public function createBatchProcessor()
+    {
+        return new BatchProcessor(
+            $this->getEntityManager()
+        );
+    }
 }
