@@ -22,12 +22,16 @@ class StatusReader implements StatusReaderInterface
 
         $batchResponse = $this->dataExchangeBatchRepository->fetchBatchStatus($batchDetails);
 
-        if($batchResponse){
-            $responseTransfer->fromArray(
-                [
-
-                ]
-            );
+        if(!empty($batchResponse)){
+            $responseTransfer->fromArray([
+                "resource" => $batchDetails->getResource(),
+                "id" => $batchDetails->getId(),
+                "count" => $batchResponse['Count'],
+                "open_count" => count($batchResponse['SpyDataExchangeResourceEntries']),
+                "creationTime" => $batchResponse['CreatedAt'],
+                "finishTime" => $batchResponse['FinishTime'],
+                "logs" => [],
+            ]);
         }
 
         return $responseTransfer;

@@ -58,6 +58,8 @@ class DataExchangeBatchBusinessFactory extends AbstractBusinessFactory
      */
     public function createStatusReader(): StatusReaderInterface
     {
-        return new StatusReader();
+        return new StatusReader(
+            $this->getRepository()
+        );
     }
 }
