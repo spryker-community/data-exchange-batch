@@ -4,6 +4,7 @@ declare(strict_types = 1);
 
 namespace SprykerCommunity\Zed\DataExchangeBatch\Business;
 
+use Generated\Shared\Transfer\EventEntityTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -12,11 +13,11 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 class DataExchangeBatchFacade extends AbstractFacade implements DataExchangeBatchFacadeInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\EventEntityTransfer[] $queueMessageTransfers
+     * @param \Generated\Shared\Transfer\EventEntityTransfer $queueMessageTransfers
      *
      */
-    public function createDataExchangeResource(array $queueMessageTransfers): void
+    public function createDataExchangeResource(EventEntityTransfer $queueMessageTransfers): void
     {
-        // return $this->getFactory()->createExampleQueueMessageProcessor()->processMessages($queueMessageTransfers);
+         $this->getFactory()->createDataExchangeBachProcessor()->process($queueMessageTransfers);
     }
 }

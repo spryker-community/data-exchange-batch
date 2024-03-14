@@ -7,7 +7,7 @@
     <table name="spy_data_exchange_resource_entry" idMethod="native">
         <column name="id_data_exchange_resource_entry" required="true" type="INTEGER" autoIncrement="true" primaryKey="true"/>
         <column name="fk_data_exchange_bach_task" type="INTEGER"/>
-        <column name="content" type="VARCHAR"  required="true"/>
+        <column name="content" type="LONGVARCHAR"  required="true"/>
 
         <foreign-key name="spy_data_exchange_resource_entry-fk_data_exchange_bach_task" foreignTable="spy_data_exchange_bach_task">
             <reference local="fk_data_exchange_bach_task" foreign="id_data_exchange_bach_task"/>
