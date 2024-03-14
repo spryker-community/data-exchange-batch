@@ -1,4 +1,4 @@
-<?php  //[STAMP] 42faf746d2748d6a3e295716bab287d7
+<?php  //[STAMP] 9a6620d9c79d20656fe1615b678b6f8c
 // phpcs:ignoreFile
 namespace SprykerTest\Zed\DataExchangeBatch\_generated;
 

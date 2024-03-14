@@ -12,10 +12,10 @@ class ResourceEntryMapper implements ResourceEntryMapperInterface
      */
     public function mapResourceEntryTransfer(SpyDataExchangeResourceEntry $resourceEntry): DataExchangeBachResourceEntryTransfer
     {
-        return (new DataExchangeBachResourceEntryTransfer())
-            ->fromArray(
-                $resourceEntry->toArray(),
-                true
-            );
+        $resultTransfer = new DataExchangeBachResourceEntryTransfer();
+        $resultTransfer->setIdDataExchangeBachResourceEntry($resourceEntry->getIdDataExchangeResourceEntry());
+        $resultTransfer->setContent($resourceEntry->getContent());
+
+        return $resultTransfer;
     }
 }

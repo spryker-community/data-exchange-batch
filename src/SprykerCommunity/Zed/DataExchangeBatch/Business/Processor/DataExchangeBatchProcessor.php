@@ -7,6 +7,7 @@ use Generated\Shared\Transfer\EventEntityTransfer;
 use Spryker\Zed\DynamicEntity\Business\DynamicEntityFacadeInterface;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestDynamicEntityMapper;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestTransferMapperInterface;
+use SprykerCommunity\Zed\DataExchangeBatch\Persistence\DataExchangeBatchEntityManagerInterface;
 use SprykerCommunity\Zed\DataExchangeBatch\Persistence\DataExchangeBatchRepositoryInterface;
 
 class DataExchangeBatchProcessor implements DataExchangeBatchProcessorInterface
@@ -22,6 +23,7 @@ class DataExchangeBatchProcessor implements DataExchangeBatchProcessorInterface
         protected GlueRequestTransferMapperInterface $glueRequestTransferMapper,
         protected GlueRequestDynamicEntityMapper $dynamicEntityMapper,
         protected DynamicEntityFacadeInterface $dynamicEntityFacade,
+        protected DataExchangeBatchEntityManagerInterface $batchEntityManager,
     ) {
     }
 
@@ -58,6 +60,15 @@ class DataExchangeBatchProcessor implements DataExchangeBatchProcessorInterface
             throw $e;
         }
 
+        if ($dynamicEntityCollectionResponseTransfer->getErrors()->count() > 0) {
+            // mark entry as failure
+            return;
+        }
+
         //remove processed entry
+
+        $this->batchEntityManager->removeResourceEntryById($dataExchangeResourceEntry->getIdDataExchangeBachResourceEntry());
+
+        // add code to change timestamp on main tasks table....
     }
 }

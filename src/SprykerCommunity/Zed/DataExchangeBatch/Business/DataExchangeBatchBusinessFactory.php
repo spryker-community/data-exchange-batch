@@ -4,7 +4,6 @@ declare(strict_types = 1);
 
 namespace SprykerCommunity\Zed\DataExchangeBatch\Business;
 
-use Spryker\Glue\DynamicEntityBackendApi\DynamicEntityBackendApiDependencyProvider;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestDynamicEntityMapper;
 use SprykerCommunity\Zed\DataExchangeBatch\Business\Mapper\GlueRequestTransferMapper;
@@ -17,6 +16,7 @@ use SprykerCommunity\Zed\DataExchangeBatch\DataExchangeBatchDependencyProvider;
 
 /**
  * @method \SprykerCommunity\Zed\DataExchangeBatch\Persistence\DataExchangeBatchRepositoryInterface getRepository()
+ * @method \SprykerCommunity\Zed\DataExchangeBatch\Persistence\DataExchangeBatchEntityManagerInterface getEntityManager()
  */
 class DataExchangeBatchBusinessFactory extends AbstractBusinessFactory
 {
@@ -30,7 +30,8 @@ class DataExchangeBatchBusinessFactory extends AbstractBusinessFactory
             $this->getRepository(),
             $this->createGlueRequestTransferMapper(),
             $this->createGlueRequestDynamicEntityMapper(),
-            $this->getProvidedDependency(DataExchangeBatchDependencyProvider::FACADE_DYNAMIC_ENTITY)
+            $this->getProvidedDependency(DataExchangeBatchDependencyProvider::FACADE_DYNAMIC_ENTITY),
+            $this->getEntityManager(),
         );
     }
 
