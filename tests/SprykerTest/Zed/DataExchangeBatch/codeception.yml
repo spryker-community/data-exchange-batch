@@ -1,0 +1,35 @@
+namespace: SprykerTest\Zed\DataExchangeBatch
+
+paths:
+    tests: .
+    data: ../../../_data
+    support: _support
+    output: ../../../_output
+
+coverage:
+    enabled: true
+    remote: false
+    whitelist: { include: ['../../../../src/*'] }
+
+suites:
+    Business:
+        path: Business
+        actor: DataExchangeBatchTester
+        modules:
+            enabled:
+                - Asserts
+                - \SprykerTest\Shared\Testify\Helper\Environment
+                - \SprykerTest\Shared\Testify\Helper\ConfigHelper
+                -   \SprykerTest\Shared\Testify\Helper\LocatorHelper:
+                        projectNamespaces: ['Pyz']
+                        coreNamespaces: ['SprykerCommunity', 'SprykerShop', 'Spryker', 'SprykerEco', 'SprykerSdk']
+                - \SprykerTest\Shared\Testify\Helper\DependencyHelper
+                - \SprykerTest\Shared\Testify\Helper\FactoryHelper
+                - \SprykerTest\Shared\Propel\Helper\TransactionHelper
+                - \SprykerTest\Service\Container\Helper\ContainerHelper
+                - \SprykerTest\Shared\Store\Helper\StoreDependencyHelper
+                - \SprykerTest\Zed\Testify\Helper\BusinessHelper
+                - \SprykerTest\Zed\Testify\Helper\Business\BusinessHelper
+                - \SprykerTest\Client\Queue\Helper\QueueHelper
+                - \SprykerTest\Client\Testify\Helper\ClientHelper
+                - \SprykerTest\Zed\EventBehavior\Helper\EventBehaviorHelper

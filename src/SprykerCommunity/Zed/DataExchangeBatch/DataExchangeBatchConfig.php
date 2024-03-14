@@ -8,5 +8,5 @@ use Spryker\Zed\Kernel\AbstractBundleConfig;
 
 class DataExchangeBatchConfig extends AbstractBundleConfig
 {
-    public const EVENT_QUEUE_NAME = 'event.data_exchange_resource';
+    public const EVENT_DATA_EXCHANGE_RESOURCE_QUEUE = 'event.data_exchange_resource';
 }

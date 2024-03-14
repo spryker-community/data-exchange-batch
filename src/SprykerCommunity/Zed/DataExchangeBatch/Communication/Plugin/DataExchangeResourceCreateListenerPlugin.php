@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace SprykerCommunity\Zed\DataExchangeBatch\Communication\Plugin;
 
-use Spryker\Zed\Event\Dependency\Plugin\EventBulkHandlerInterface;
+use Spryker\Shared\Kernel\Transfer\TransferInterface;
+use Spryker\Zed\Event\Dependency\Plugin\EventHandlerInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
  * @method \SprykerCommunity\Zed\DataExchangeBatch\Business\DataExchangeBatchFacadeInterface getFacade()
  */
-class DataExchangeResourceCreateListenerPlugin extends AbstractPlugin implements EventBulkHandlerInterface
+class DataExchangeResourceCreateListenerPlugin extends AbstractPlugin implements EventHandlerInterface
 {
     /**
      * @inheritDoc
      */
-    public function handleBulk(array $eventEntityTransfers, $eventName)
+    public function handle(TransferInterface $transfer, $eventName)
     {
-        $this->getFacade()->createDataExchangeResource($eventEntityTransfers);
+        $this->getFacade()->createDataExchangeResource($transfer);
     }
 }

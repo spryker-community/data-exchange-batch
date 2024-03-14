@@ -30,11 +30,11 @@ class DataExchangeResourceSubscriberPlugin extends AbstractPlugin implements Eve
     private function addDataExchangeResourceListener(EventCollectionInterface $eventCollection): void
     {
         $eventCollection->addListenerQueued(
-            'data_exchange_resource.create',
+            'Entity.spy_data_exchange_resource_entry.create',
             new DataExchangeResourceCreateListenerPlugin(),
             0,
             null,
-            DataExchangeBatchConfig::EVENT_QUEUE_NAME
+            DataExchangeBatchConfig::EVENT_DATA_EXCHANGE_RESOURCE_QUEUE
         );
     }
 }
